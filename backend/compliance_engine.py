@@ -1,4 +1,4 @@
-from backend.department_rules import DEPARTMENT_PPE
+from department_rules import DEPARTMENT_PPE
 
 
 def check_compliance(department, detected):

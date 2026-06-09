@@ -1,12 +1,5 @@
 DEPARTMENT_PPE = {
-    "Blast Furnace": [
-        "helmet",
-        "vest",
-        "boots",
-        "goggles"
-    ],
-
-    "Steel Melting Shop": [
+    "steel_melting_shop": [
         "helmet",
         "vest",
         "gloves",
@@ -14,29 +7,25 @@ DEPARTMENT_PPE = {
         "goggles"
     ],
 
-    "Rolling Mill": [
+    "rolling_mill": [
         "helmet",
         "vest",
+        "gloves",
         "boots"
     ],
 
-    "Coke Oven Plant": [
+    "blast_furnace": [
         "helmet",
         "vest",
+        "gloves",
         "boots",
         "goggles"
     ],
 
-    "Power Plant": [
+    "coke_oven_plant": [
         "helmet",
         "vest",
+        "gloves",
         "boots"
-    ],
-
-    "Raw Material Handling Plant": [
-        "helmet",
-        "vest",
-        "boots",
-        "goggles"
     ]
 }

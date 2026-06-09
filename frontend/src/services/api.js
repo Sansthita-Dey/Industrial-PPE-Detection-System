@@ -219,14 +219,59 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  *   return response.json();
  */
 export const analyzeCompliance = async (file, department) => {
-  // Simulate realistic processing delay
-  const isVideo = file?.type?.startsWith('video/') || false;
-  const processingTime = isVideo ? 2500 + Math.random() * 2000 : 800 + Math.random() * 500;
-  await delay(processingTime);
+  try {
+    const formData = new FormData();
 
-  // Build and return mock response
-  const result = buildMockResponse(department, isVideo ? 'video' : 'image');
-  return { success: true, data: result };
+    formData.append("file", file);
+    formData.append("department", department);
+
+    const response = await fetch(
+      "http://127.0.0.1:8000/analyze-image",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Backend request failed");
+    }
+
+    const data = await response.json();
+
+const formattedData = {
+  department: data.department,
+
+  required_ppe: data.required || [],
+  detected_ppe: data.detected || [],
+  missing_ppe: data.missing || [],
+
+  compliance_score: data.compliance || 0,
+  compliance_percentage: data.compliance || 0,
+
+  status: data.allowed ? "ALLOWED" : "NOT_ALLOWED",
+
+  timestamp: new Date().toISOString(),
+
+  frames_analyzed: 0,
+  frames_with_compliance: 0,
+  frames_with_violations: 0,
+  frame_images: [],
+};
+
+return {
+  success: true,
+  data: formattedData,
+};
+
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
 };
 
 /**

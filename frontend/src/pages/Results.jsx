@@ -3,12 +3,8 @@ import { Button, Divider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined, ReloadOutlined } from '@ant-design/icons';
 import ComplianceCard from '../components/ComplianceCard.jsx';
-import CompliancePercentCard from '../components/CompliancePercentCard.jsx';
 import EntryDecisionCard from '../components/EntryDecisionCard.jsx';
 import PPEStatusCard from '../components/PPEStatusCard.jsx';
-import DetectionStatistics from '../components/DetectionStatistics.jsx';
-import FrameGallery from '../components/FrameGallery.jsx';
-import AnalysisSummary from '../components/AnalysisSummary.jsx';
 import DatasetCoverage from '../components/DatasetCoverage.jsx';
 import { DEPARTMENTS } from '../services/api.js';
 
@@ -134,24 +130,15 @@ const Results = ({ result }) => {
           <EntryDecisionCard status={status} />
         </div>
 
-        {/* ── Row 2: Compliance Score + Percent Card ── */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 20,
-          marginBottom: 20,
-        }}>
-          <ComplianceCard
-            score={compliance_score}
-            detected={detected_ppe.length}
-            required={required_ppe.length}
-          />
-          <CompliancePercentCard
-            percentage={compliance_percentage}
-            framesAnalyzed={frames_analyzed}
-            framesCompliant={frames_with_compliance}
-          />
-        </div>
+        {/* ── Row 2: Compliance Score ── */}
+<div style={{ marginBottom: 20 }}>
+  <ComplianceCard
+    score={compliance_score}
+    detected={detected_ppe.length}
+    required={required_ppe.length}
+  />
+</div>
+          
 
         {/* ── Row 3: PPE Status (full width) ── */}
         <div style={{ marginBottom: 20 }}>
@@ -161,20 +148,7 @@ const Results = ({ result }) => {
           />
         </div>
 
-        {/* ── Row 4: Detection Statistics ── */}
-        <div style={{ marginBottom: 20 }}>
-          <DetectionStatistics data={result} />
-        </div>
-
-        {/* ── Row 5: Frame Gallery ── */}
-        <div style={{ marginBottom: 20 }}>
-          <FrameGallery frames={frame_images} />
-        </div>
-
-        {/* ── Row 6: Analysis Summary + Recommendations ── */}
-        <div style={{ marginBottom: 20 }}>
-          <AnalysisSummary result={result} />
-        </div>
+        
 
         {/* ── Row 7: Dataset Coverage ── */}
         <div style={{ marginBottom: 36 }}>

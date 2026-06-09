@@ -3,9 +3,17 @@ from ultralytics import YOLO
 import shutil
 import os
 
-from backend.compliance_engine import check_compliance
+from compliance_engine import check_compliance
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load model once when server starts
 model = YOLO("runs/detect/train-2/weights/best.pt")
