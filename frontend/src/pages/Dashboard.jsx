@@ -177,11 +177,11 @@ const Dashboard = ({
         onAnalysisComplete(response.data);
         navigate('/results');
       } else {
-        message.error('Analysis failed. Please try again.');
+        message.error(response.error,15);
       }
     } catch (err) {
       console.error(err);
-      message.error('An unexpected error occurred during analysis.');
+      message.error(err.message,15);
     } finally {
       setIsAnalyzing(false);
     }

@@ -218,6 +218,9 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  *   });
  *   return response.json();
  */
+
+  
+
 export const analyzeCompliance = async (file, department) => {
   try {
     const formData = new FormData();
@@ -233,36 +236,40 @@ export const analyzeCompliance = async (file, department) => {
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Backend request failed");
-    }
-
     const data = await response.json();
 
-const formattedData = {
-  department: data.department,
+    // Backend validation errors
+    if (data.error) {
+      return {
+        success: false,
+        error: data.error,
+      };
+    }
 
-  required_ppe: data.required || [],
-  detected_ppe: data.detected || [],
-  missing_ppe: data.missing || [],
+    const formattedData = {
+      department: data.department,
 
-  compliance_score: data.compliance || 0,
-  compliance_percentage: data.compliance || 0,
+      required_ppe: data.required || [],
+      detected_ppe: data.detected || [],
+      missing_ppe: data.missing || [],
 
-  status: data.allowed ? "ALLOWED" : "NOT_ALLOWED",
+      compliance_score: data.compliance || 0,
+      compliance_percentage: data.compliance || 0,
 
-  timestamp: new Date().toISOString(),
+      status: data.allowed ? "ALLOWED" : "NOT_ALLOWED",
 
-  frames_analyzed: 0,
-  frames_with_compliance: 0,
-  frames_with_violations: 0,
-  frame_images: [],
-};
+      timestamp: new Date().toISOString(),
 
-return {
-  success: true,
-  data: formattedData,
-};
+      frames_analyzed: 0,
+      frames_with_compliance: 0,
+      frames_with_violations: 0,
+      frame_images: [],
+    };
+
+    return {
+      success: true,
+      data: formattedData,
+    };
 
   } catch (error) {
     console.error(error);
