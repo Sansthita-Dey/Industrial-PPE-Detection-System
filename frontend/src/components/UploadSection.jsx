@@ -50,8 +50,43 @@ const UploadSection = ({ onFileSelected, selectedFile }) => {
       return false;
     }
 
+    // Video duration validation
+if (type === 'video') {
+
+  const video = document.createElement('video');
+
+  video.preload = 'metadata';
+
+  video.onloadedmetadata = () => {
+
+    const duration = video.duration;
+
+    URL.revokeObjectURL(video.src);
+
+    if (duration < 2 || duration > 6) {
+
+      message.error(
+        'Please upload a video between 2 and 6 seconds long.',
+        8
+      );
+
+      return;
+    }
+
     onFileSelected(file);
-    return false; // Prevent auto-upload
+  };
+
+  video.onerror = () => {
+    message.error('Unable to read video duration.');
+  };
+
+  video.src = URL.createObjectURL(file);
+
+  return false;
+}
+
+onFileSelected(file);
+return false;
   };
 
   const handleRemove = () => onFileSelected(null);

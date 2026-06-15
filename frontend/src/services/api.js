@@ -228,13 +228,17 @@ export const analyzeCompliance = async (file, department) => {
     formData.append("file", file);
     formData.append("department", department);
 
-    const response = await fetch(
-      "http://127.0.0.1:8000/analyze-image",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const endpoint = file.type.startsWith("video")
+  ? "http://127.0.0.1:8000/analyze-video"
+  : "http://127.0.0.1:8000/analyze-image";
+
+const response = await fetch(
+  endpoint,
+  {
+    method: "POST",
+    body: formData,
+  }
+);
 
     const data = await response.json();
 
