@@ -392,19 +392,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 24px 0 48px;
 }
 
-/* ============ SCAN EFFECT ============ */
-.scan-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
-  animation: scan-line 4s linear infinite;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.4;
-}
+
 
 /* ============ LOADING OVERLAY ============ */
 .analysis-loading-overlay {
@@ -822,4 +810,96 @@ h1, h2, h3, h4, h5, h6 {
   .summary-label {
     min-width: 100px;
   }
+}
+/* ===== ANT DESIGN 6 MODAL OVERRIDE ===== */
+
+.ant-modal .ant-modal-content {
+  background: #0f172a !important;
+  border: 1px solid rgba(14, 165, 233, 0.4) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 25px rgba(14, 165, 233, 0.25) !important;
+}
+
+.ant-modal .ant-modal-confirm-title {
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+}
+
+.ant-modal .ant-modal-confirm-content {
+  color: #cbd5e1 !important;
+}
+
+.ant-modal .ant-btn-primary {
+  background: #0ea5e9 !important;
+  border: none !important;
+  border-radius: 8px !important;
+}
+
+.ant-modal .ant-btn-primary:hover {
+  background: #0284c7 !important;
+}
+
+.ant-modal .ant-modal-confirm-warning .anticon {
+  color: #f59e0b !important;
+}
+
+.ant-modal .ant-modal-confirm-error .anticon {
+  color: #ef4444 !important;
+}
+
+/* Force white panel -> dark panel */
+
+.ant-modal-content,
+.ant-modal-confirm-body-wrapper,
+.ant-modal-confirm-body {
+  background: #0b1220 !important;
+}
+
+/* Text colors */
+
+.ant-modal-confirm-title {
+  color: #38bdf8 !important;
+}
+
+.ant-modal-confirm-content,
+.ant-modal-confirm-content * {
+  color: #cbd5e1 !important;
+}
+
+/* Button */
+
+.ant-modal .ant-btn-primary {
+  background: #0ea5e9 !important;
+  border: none !important;
+}
+
+/* Kill white outer container */
+
+.ant-modal-content {
+  background: #0b1220 !important;
+}
+
+.ant-modal-confirm,
+.ant-modal-confirm-body-wrapper {
+  background: #0b1220 !important;
+}
+
+/* Remove extra white padding area */
+
+.ant-modal-confirm-paragraph {
+  background: #0b1220 !important;
+}
+
+.ant-modal-content {
+  background: linear-gradient(
+    135deg,
+    #07111f,
+    #0b1220
+  ) !important;
+
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+
+  box-shadow:
+    0 0 20px rgba(56, 189, 248, 0.15),
+    0 0 40px rgba(56, 189, 248, 0.08) !important;
 }

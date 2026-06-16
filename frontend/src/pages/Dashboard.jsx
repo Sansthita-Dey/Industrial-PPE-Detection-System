@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, message, Divider } from 'antd';
+import { Button, message, Divider, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   ThunderboltOutlined,
@@ -177,8 +177,13 @@ const Dashboard = ({
         onAnalysisComplete(response.data);
         navigate('/results');
       } else {
-        message.error(response.error,15);
-      }
+    Modal.error({
+  title: 'Validation Error',
+  content: response.error,
+  centered: true,
+  className: 'ppe-modal',
+});
+}
     } catch (err) {
       console.error(err);
       message.error(err.message,15);

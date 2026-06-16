@@ -134,7 +134,7 @@ const Footer = () => {
             © {currentYear} AI PPE Compliance Detection System · Industrial Safety Division
           </span>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-            <span>Built for Final Year Project Demonstration</span>
+            <span>Built by Sansthita</span>
             <span style={{ color: 'var(--border-card)' }}>|</span>
             <span>YOLOv8 · React · FastAPI</span>
           </div>

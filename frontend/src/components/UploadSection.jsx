@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, Button, Tag, Progress, Tooltip, message } from 'antd';
+import { Upload, Button, Tag, Progress, Tooltip, message, Modal } from 'antd';
 import {
   InboxOutlined,
   VideoCameraOutlined,
@@ -65,10 +65,13 @@ if (type === 'video') {
 
     if (duration < 2 || duration > 6) {
 
-      message.error(
-        'Please upload a video between 2 and 6 seconds long.',
-        8
-      );
+     Modal.warning({
+  title: 'Invalid Video Length',
+  content: 'Please upload a video between 2 and 6 seconds long.',
+  centered: true,
+  okText: 'Understood',
+  className: 'ppe-modal',
+});
 
       return;
     }
