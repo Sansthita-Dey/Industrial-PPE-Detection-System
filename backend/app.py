@@ -221,3 +221,68 @@ async def analyze_video(
     )
 
     return compliance_result
+
+@app.post("/live-detect")
+async def live_detect(
+    department: str = Form(...),
+    file: UploadFile = File(...)
+):
+
+    file_path = f"uploads/live_{file.filename}"
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    results = model(file_path)
+
+    detected_ppe = []
+    person_count = 0
+
+    for result in results:
+
+        for box in result.boxes:
+
+            class_id = int(box.cls[0])
+
+            class_name = model.names[class_id]
+
+            if class_name == "Person":
+                person_count += 1
+
+            elif class_name != "none":
+                detected_ppe.append(class_name)
+
+    detected_ppe = list(set(detected_ppe))
+
+    if person_count == 0:
+
+        return {
+            "status": "no_person",
+            "message": "No person detected"
+        }
+
+    if person_count > 1:
+
+        return {
+            "status": "multiple_persons",
+            "message": "Multiple persons detected"
+        }
+
+    department_mapping = {
+        "Steel Melting Shop": "steel_melting_shop",
+        "Rolling Mill": "rolling_mill",
+        "Blast Furnace": "blast_furnace",
+        "Coke Oven Plant": "coke_oven_plant"
+    }
+
+    department = department_mapping.get(
+        department,
+        department
+    )
+
+    compliance_result = check_compliance(
+        department,
+        detected_ppe
+    )
+
+    return compliance_result
