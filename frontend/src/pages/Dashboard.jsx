@@ -11,6 +11,7 @@ import DepartmentSelector from '../components/DepartmentSelector.jsx';
 import RequiredPPECard from '../components/RequiredPPECard.jsx';
 import DatasetCoverage from '../components/DatasetCoverage.jsx';
 import { analyzeCompliance } from '../services/api.js';
+import LiveCamera from "../components/LiveCamera";
 
 // ─── Loading Overlay ──────────────────────────────────────────────────────
 const LoadingOverlay = ({ isVideo }) => (
@@ -219,7 +220,11 @@ const Dashboard = ({
         <div style={{ marginBottom: 32 }}>
           <DatasetCoverage />
         </div>
-
+<div style={{ marginBottom: 20 }}>
+  <LiveCamera
+    department={selectedDepartment}
+  />
+</div>
         {/* ── Analyze Button ── */}
         <div style={{
           textAlign: 'center',
