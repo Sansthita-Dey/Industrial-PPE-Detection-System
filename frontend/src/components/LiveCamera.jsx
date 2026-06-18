@@ -19,12 +19,13 @@ export default function LiveCamera({ department }) {
       });
 
       videoRef.current.srcObject = stream;
+      videoRef.current.onloadedmetadata = () => {
       setCameraOn(true);
 
       intervalId = setInterval(() => {
         captureAndAnalyze();
       }, 2000);
-
+};
     } catch (err) {
       console.error(err);
       message.error("Camera access denied");
@@ -45,10 +46,18 @@ export default function LiveCamera({ department }) {
     if (!department) return;
 
     const canvas = canvasRef.current;
-    const video = videoRef.current;
+const video = videoRef.current;
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+if (!video || !canvas) {
+  return;
+}
+
+if (video.videoWidth === 0 || video.videoHeight === 0) {
+  return;
+}
+
+canvas.width = video.videoWidth;
+canvas.height = video.videoHeight;
 
     const ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0);
@@ -76,9 +85,11 @@ export default function LiveCamera({ department }) {
           }
         );
 
-        const data = await response.json();
+       const data = await response.json();
 
-        setResult(data);
+console.log("LIVE RESPONSE:", data);
+
+setResult(data);
 
       } catch (err) {
         console.error(err);
@@ -90,14 +101,26 @@ export default function LiveCamera({ department }) {
   return (
     <Card title="📷 Live PPE Monitoring">
 
-      <video
-        ref={videoRef}
-        autoPlay
-        style={{
-          width: "100%",
-          borderRadius: "10px"
-        }}
-      />
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "15px"
+  }}
+>
+  <video
+    ref={videoRef}
+    autoPlay
+    style={{
+      width: "100%",
+      maxWidth: "650px",
+      height: "360px",
+      objectFit: "cover",
+      borderRadius: "12px",
+      border: "1px solid rgba(255,255,255,0.1)"
+    }}
+  />
+</div>
 
       <canvas
         ref={canvasRef}
@@ -128,15 +151,73 @@ export default function LiveCamera({ department }) {
       </div>
 
       {result && (
-        <pre
-          style={{
-            marginTop: 15,
-            color: "#fff"
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
+  <div
+    style={{
+      marginTop: 20,
+      padding: 20,
+      background: "#0f172a",
+      border: result.allowed
+        ? "1px solid #10b981"
+        : "1px solid #ef4444",
+      borderRadius: 12,
+      color: "white"
+    }}
+  >
+
+    <div
+      style={{
+        fontSize: "24px",
+        fontWeight: "bold",
+        marginBottom: 15,
+        color: result.allowed
+          ? "#10b981"
+          : "#ef4444"
+      }}
+    >
+      {result.allowed
+        ? "🟢 ALLOWED"
+        : "🔴 NOT ALLOWED"}
+    </div>
+
+    <div
+      style={{
+        fontSize: "16px",
+        marginBottom: 20
+      }}
+    >
+      Compliance Score: {result.compliance}%
+    </div>
+
+    <div style={{ marginBottom: 15 }}>
+      <strong>Detected PPE</strong>
+
+      <ul style={{ marginTop: 10 }}>
+        {result.detected.length > 0 ? (
+          result.detected.map(item => (
+            <li key={item}>
+              ✅ {item}
+            </li>
+          ))
+        ) : (
+          <li>No PPE detected</li>
+        )}
+      </ul>
+    </div>
+
+    <div>
+      <strong>Missing PPE</strong>
+
+      <ul style={{ marginTop: 10 }}>
+        {result.missing.map(item => (
+          <li key={item}>
+            ❌ {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+)}
 
     </Card>
   );

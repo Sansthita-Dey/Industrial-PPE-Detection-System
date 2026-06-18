@@ -210,7 +210,11 @@ const Dashboard = ({
           <UploadSection onFileSelected={setSelectedFile} selectedFile={selectedFile} />
           <DepartmentSelector value={selectedDepartment} onChange={setSelectedDepartment} />
         </div>
-
+<div style={{ marginBottom: 20 }}>
+  <LiveCamera
+    department={selectedDepartment}
+  />
+</div>
         {/* ── PPE Requirements Row ── */}
         <div style={{ marginBottom: 20 }}>
           <RequiredPPECard department={selectedDepartment} />
@@ -220,11 +224,7 @@ const Dashboard = ({
         <div style={{ marginBottom: 32 }}>
           <DatasetCoverage />
         </div>
-<div style={{ marginBottom: 20 }}>
-  <LiveCamera
-    department={selectedDepartment}
-  />
-</div>
+
         {/* ── Analyze Button ── */}
         <div style={{
           textAlign: 'center',
